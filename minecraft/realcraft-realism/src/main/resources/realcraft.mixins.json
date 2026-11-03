@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.realcraft.realism.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "realcraft.refmap.json",
+  "mixins": [
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "client.AbstractClientPlayerMixin",
+    "client.BiomeColorsMixin",
+    "client.BlockMixin",
+    "client.LevelRendererMixin",
+    "client.LivingEntityRendererMixin",
+    "client.QuadrupedModelAccessor",
+    "client.RebuildTaskMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

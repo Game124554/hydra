@@ -266,10 +266,14 @@ public final class RealConfig {
     // Derived values, recomputed whenever a config file is (re)loaded.
 
     private static volatile int generation;
-    private static volatile Cache cache;
+    private static volatile WorldCache worldCache;
+    private static volatile SmoothCache smoothCache;
 
-    private record Cache(int generation, BlockState overworldBedrock, BlockState netherBedrock,
-                         Set<Block> smoothExtra, Set<Block> smoothExcluded) {
+    // Kept apart because a dedicated server never loads the client config.
+    private record WorldCache(int generation, BlockState overworldBedrock, BlockState netherBedrock) {
+    }
+
+    private record SmoothCache(int generation, Set<Block> extra, Set<Block> excluded) {
     }
 
     public static void onLoad(ModConfigEvent.Loading event) {
@@ -285,37 +289,40 @@ public final class RealConfig {
         generation++;
     }
 
-    public static int generation() {
-        return generation;
+    private static WorldCache worldCache() {
+        WorldCache c = worldCache;
+        if (c == null || c.generation != generation) {
+            c = new WorldCache(generation,
+                    parseState(OVERWORLD_BEDROCK_REPLACEMENT.get(), Blocks.BLACKSTONE),
+                    parseState(NETHER_BEDROCK_REPLACEMENT.get(), Blocks.NETHERRACK));
+            worldCache = c;
+        }
+        return c;
     }
 
-    private static Cache cache() {
-        Cache c = cache;
+    private static SmoothCache smoothCache() {
+        SmoothCache c = smoothCache;
         if (c == null || c.generation != generation) {
-            c = new Cache(generation,
-                    parseState(OVERWORLD_BEDROCK_REPLACEMENT.get(), Blocks.BLACKSTONE),
-                    parseState(NETHER_BEDROCK_REPLACEMENT.get(), Blocks.NETHERRACK),
-                    parseBlocks(SMOOTH_EXTRA_BLOCKS.get()),
-                    parseBlocks(SMOOTH_EXCLUDED_BLOCKS.get()));
-            cache = c;
+            c = new SmoothCache(generation, parseBlocks(SMOOTH_EXTRA_BLOCKS.get()), parseBlocks(SMOOTH_EXCLUDED_BLOCKS.get()));
+            smoothCache = c;
         }
         return c;
     }
 
     public static BlockState overworldBedrockReplacement() {
-        return cache().overworldBedrock;
+        return worldCache().overworldBedrock;
     }
 
     public static BlockState netherBedrockReplacement() {
-        return cache().netherBedrock;
+        return worldCache().netherBedrock;
     }
 
     public static Set<Block> smoothExtraBlocks() {
-        return cache().smoothExtra;
+        return smoothCache().extra;
     }
 
     public static Set<Block> smoothExcludedBlocks() {
-        return cache().smoothExcluded;
+        return smoothCache().excluded;
     }
 
     private static boolean isBlockId(Object o) {

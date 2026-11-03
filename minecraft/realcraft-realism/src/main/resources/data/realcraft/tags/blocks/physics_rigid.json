@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:terracotta",
+    { "id": "#forge:ores", "required": false },
+    "minecraft:calcite",
+    "minecraft:dripstone_block",
+    "minecraft:smooth_basalt",
+    "minecraft:sandstone",
+    "minecraft:red_sandstone",
+    "minecraft:end_stone"
+  ]
+}

@@ -3,11 +3,13 @@ package com.realcraft.realism.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.realcraft.realism.RealCraft;
 import com.realcraft.realism.client.gui.RealismSettingsScreen;
+import com.realcraft.realism.zombie.ZombifiedState;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.event.TickEvent;
@@ -37,6 +39,11 @@ public final class RealCraftClient {
 
     private static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityType.ITEM, RealisticItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void onLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
+        ZombifiedState.clearClient();
     }
 
     @SubscribeEvent

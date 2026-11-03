@@ -1,6 +1,7 @@
 package com.realcraft.realism.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.realcraft.realism.client.MobAnimations;
 import com.realcraft.realism.client.ragdoll.Ragdoll;
 import com.realcraft.realism.client.ragdoll.RagdollManager;
 import net.minecraft.client.model.EntityModel;
@@ -15,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Draws ragdolled creatures in their simulated pose instead of vanilla's stiff death flip. */
+/** Ragdoll poses for dying creatures and procedural animation for living ones. */
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
     @Shadow
@@ -39,6 +40,17 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         Ragdoll ragdoll = RagdollManager.get(entity);
         if (ragdoll != null) {
             ragdoll.applyLimbs(this.model, partialTicks);
+        } else {
+            MobAnimations.apply(this.model, entity, partialTicks);
+        }
+    }
+
+    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At("TAIL"))
+    private void realcraft$restoreLimbs(LivingEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
+                                        MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
+        if (RagdollManager.get(entity) != null) {
+            Ragdoll.restoreLimbs(this.model);
         }
     }
 

@@ -3,6 +3,8 @@ package com.realcraft.realism;
 import com.mojang.logging.LogUtils;
 import com.realcraft.realism.client.RealCraftClient;
 import com.realcraft.realism.config.RealConfig;
+import com.realcraft.realism.network.RealNetwork;
+import com.realcraft.realism.registry.ModEffects;
 import com.realcraft.realism.registry.ModFeatures;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,6 +30,8 @@ public final class RealCraft {
         modBus.addListener(RealConfig::onReload);
 
         ModFeatures.FEATURES.register(modBus);
+        ModEffects.EFFECTS.register(modBus);
+        RealNetwork.register();
 
         if (FMLEnvironment.dist == Dist.CLIENT) {
             RealCraftClient.init(modBus);

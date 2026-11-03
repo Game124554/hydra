@@ -5,10 +5,10 @@ package com.realcraft.realism.config;
  * settings; feature toggles stay as the player set them (except smooth terrain on LOW).
  */
 public enum PerformancePreset {
-    LOW(false, 3, 24, 2, 1, 0.3, 24, 4, 6, 3),
-    MEDIUM(true, 8, 40, 3, 2, 0.6, 48, 8, 12, 5),
-    HIGH(true, 12, 48, 4, 4, 1.0, 64, 12, 24, 6),
-    ULTRA(true, 32, 96, 8, 8, 1.6, 256, 32, 64, 10);
+    LOW(false, 3, 24, 2, 1, 0.3, 24, 4, 6, 3, 10),
+    MEDIUM(true, 8, 40, 3, 2, 0.6, 48, 8, 12, 5, 16),
+    HIGH(true, 12, 48, 4, 4, 1.0, 64, 12, 24, 6, 24),
+    ULTRA(true, 32, 96, 8, 8, 1.6, 256, 32, 64, 10, 40);
 
     private final boolean smoothTerrain;
     private final int maxRagdolls;
@@ -20,9 +20,11 @@ public enum PerformancePreset {
     private final int fallsPerTick;
     private final int maxDebris;
     private final int shockwaveRadius;
+    private final int cloudDistance;
 
     PerformancePreset(boolean smoothTerrain, int maxRagdolls, int ragdollDistance, int ragdollIterations, int itemRenderCount,
-                      double particleDensity, int checksPerTick, int fallsPerTick, int maxDebris, int shockwaveRadius) {
+                      double particleDensity, int checksPerTick, int fallsPerTick, int maxDebris, int shockwaveRadius,
+                      int cloudDistance) {
         this.smoothTerrain = smoothTerrain;
         this.maxRagdolls = maxRagdolls;
         this.ragdollDistance = ragdollDistance;
@@ -33,6 +35,7 @@ public enum PerformancePreset {
         this.fallsPerTick = fallsPerTick;
         this.maxDebris = maxDebris;
         this.shockwaveRadius = shockwaveRadius;
+        this.cloudDistance = cloudDistance;
     }
 
     public String translationKey() {
@@ -54,6 +57,7 @@ public enum PerformancePreset {
         RealConfig.PHYSICS_FALLS_PER_TICK.set(fallsPerTick);
         RealConfig.MAX_DEBRIS.set(maxDebris);
         RealConfig.GLASS_SHOCKWAVE_RADIUS.set(shockwaveRadius);
+        RealConfig.CLOUD_DISTANCE.set(cloudDistance);
         RealConfig.PRESET.set(this);
         RealConfig.markChanged();
     }

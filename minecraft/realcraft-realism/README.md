@@ -19,6 +19,11 @@ switched on or off and tuned in the in-game settings screen, including performan
 | **Lava** | Radiant heat sets you on fire when you stand right next to lava; water meeting lava bursts into steam clouds. |
 | **Bedrock removed** | New chunks get no bedrock floor (overworld) or floor and roof (nether). The replacement block is configurable; set it to `minecraft:air` to open the void. |
 | **Hell underground** | Below Y -40 (configurable) the overworld turns into hell: netherrack, magma, soul-sand and basalt patches, nether ores, burning floors, glowstone ceilings and lava lakes. Water boils away. Thick red fog, drifting ash, rising embers and distant rumbles there and in the Nether. |
+| **Realistic clouds** | Tall, shaded cumulus clouds with flat bases and puffy tops replace the flat vanilla clouds. They drift with the wind, thicken and darken in rain and storms and take the sunset/night colour. Ordinary geometry, so no shader pack is needed. Height, coverage, thickness, draw distance and wind speed are adjustable. |
+| **Realistic water** | Deeper, natural blue-green water colours. Underwater visibility is clear in the shallows, darker the deeper you go, murky in swamps, at night and in rain. Sunlight glints on open water; waterfalls throw up mist and foam where they land. No shader pack needed. |
+| **Mob animation** | Breathing, footstep head bob and natural arm sway. Zombies shamble with lolling heads, uneven arms and a dragging leg. Skeleton skulls rattle, four-legged animals nod as they walk. |
+| **Zombie infection** | Zombie bites can infect you. The infection worsens over 10 minutes (fever, nausea, weakness, slowness); a golden apple cures it, milk doesn't. If it runs its course, or you die infected, you turn into a zombie: zombie skin, zombies treat you as one of their own, iron golems hunt you, and sunlight burns you unless you wear a helmet. To become human again, splash yourself with Weakness and eat a golden apple, like curing a zombie villager. |
+| **Fall into the Nether** | With bedrock removed you can dig through the bottom of the overworld and drop out under the Nether's ceiling (at the matching Nether coordinates). Fall through the bottom of the Nether and you drop out of the overworld sky. Slow falling keeps the landing survivable. |
 | **Realistic mobs** | Monsters struggle to spot you in the dark or while sneaking. Hurting an animal makes its herd flee. Headshots with projectiles deal extra damage (helmets soften it) and leg hits slow. Badly wounded creatures limp. Hits spray matching particles (blood, bone, slime...). Big creatures shrug off knockback. |
 
 ## Settings
@@ -73,7 +78,12 @@ the mod loads.
 * **Ragdolls are an approximation.** The body is a tumbling rigid box with swinging limbs, not a
   full per-bone simulation. Ragdolls are client-side and purely visual. They animate humanoid and
   four-legged models; other creatures tumble as one piece.
-* **Realistic mobs means behaviour, not new models or textures.** The mod ships no art assets;
-  pair it with a realistic resource pack for looks.
+* **No new 3D mob models or textures.** Realistic 3D models need artist-made models and textures,
+  which this mod does not include. It improves how mobs move and behave instead. For detailed
+  3D models, combine it with a model/texture resource pack (for example *Fresh Animations* with
+  *Entity Model Features* and *Entity Texture Features*, both available for Forge 1.20.1).
+* **Water has no moving waves or reflections.** Real waves and reflections need shaders; the
+  water realism here is colour, visibility, glints and mist.
+* Zombified players use the vanilla zombie skin on the classic (wide-arm) model.
 * Cave-ins can be large in big caverns. Lower *Rock Overhang Span*, or the per-tick limits, if
   they are too much.

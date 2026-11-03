@@ -314,6 +314,26 @@ public final class Ragdoll {
         }
     }
 
+    /**
+     * Models are shared by every creature of a type. Vanilla re-poses arms, legs and head pitch/yaw
+     * every frame, but never the head roll or the roll of four-legged animals' legs, so those are
+     * zeroed again after a ragdoll has been drawn.
+     */
+    public static void restoreLimbs(EntityModel<?> model) {
+        if (model instanceof HumanoidModel<?> humanoid) {
+            humanoid.head.zRot = 0.0F;
+            humanoid.hat.zRot = 0.0F;
+        } else if (model instanceof QuadrupedModel<?> quadruped) {
+            QuadrupedModelAccessor parts = (QuadrupedModelAccessor) quadruped;
+            parts.realcraft$head().zRot = 0.0F;
+            for (ModelPart leg : new ModelPart[]{parts.realcraft$rightFrontLeg(), parts.realcraft$leftFrontLeg(),
+                    parts.realcraft$rightHindLeg(), parts.realcraft$leftHindLeg()}) {
+                leg.yRot = 0.0F;
+                leg.zRot = 0.0F;
+            }
+        }
+    }
+
     private double distance(int i, int j) {
         double dx = x[j] - x[i], dy = y[j] - y[i], dz = z[j] - z[i];
         return Math.sqrt(dx * dx + dy * dy + dz * dz);

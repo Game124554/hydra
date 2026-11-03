@@ -8,7 +8,10 @@
     "LivingEntityMixin"
   ],
   "client": [
+    "client.AbstractClientPlayerMixin",
+    "client.BiomeColorsMixin",
     "client.BlockMixin",
+    "client.LevelRendererMixin",
     "client.LivingEntityRendererMixin",
     "client.QuadrupedModelAccessor",
     "client.RebuildTaskMixin"

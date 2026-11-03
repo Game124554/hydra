@@ -39,11 +39,15 @@ public class RealismSettingsScreen extends Screen {
         CATEGORY_TITLES.put("ragdolls", "Ragdolls");
         CATEGORY_TITLES.put("items", "Item Physics");
         CATEGORY_TITLES.put("atmosphere", "Hell Atmosphere & Effects");
+        CATEGORY_TITLES.put("clouds", "Realistic Clouds");
+        CATEGORY_TITLES.put("water", "Realistic Water");
+        CATEGORY_TITLES.put("animations", "Mob Animation");
         CATEGORY_TITLES.put("physics", "Structural Physics & Explosions");
         CATEGORY_TITLES.put("glass", "Breakable Glass");
         CATEGORY_TITLES.put("fluids", "Water & Lava");
         CATEGORY_TITLES.put("world", "World Generation (new chunks)");
         CATEGORY_TITLES.put("mobs", "Realistic Mobs");
+        CATEGORY_TITLES.put("zombies", "Zombie Infection");
     }
 
     private final Screen parent;
@@ -55,6 +59,7 @@ public class RealismSettingsScreen extends Screen {
         this.parent = parent;
         terrainSnapshot.put(RealConfig.SMOOTH_TERRAIN, RealConfig.SMOOTH_TERRAIN.get());
         terrainSnapshot.put(RealConfig.SMOOTHNESS, RealConfig.SMOOTHNESS.get());
+        terrainSnapshot.put(RealConfig.REALISTIC_WATER_COLOR, RealConfig.REALISTIC_WATER_COLOR.get());
     }
 
     @Override

@@ -69,6 +69,8 @@ public final class RealConfig {
     public static final Opt.Dbl HELL_GLOWSTONE_CHANCE;
     public static final Opt.Bool HELL_CONVERT_ORES;
     public static final Opt.Bool STEP_ASSIST;
+    public static final Opt.Bool DIG_TO_NETHER;
+    public static final Opt.Bool NETHER_VOID_TO_OVERWORLD;
 
     // ---- Mobs (common) ----
     public static final Opt.Bool STEALTH;
@@ -81,6 +83,14 @@ public final class RealConfig {
     public static final Opt.Bool IMPACT_PARTICLES;
     public static final Opt.Bool MASS_KNOCKBACK;
     public static final Opt.Int CORPSE_TICKS;
+
+    // ---- Zombie infection (common) ----
+    public static final Opt.Bool ZOMBIE_INFECTION;
+    public static final Opt.Dbl INFECTION_CHANCE;
+    public static final Opt.Int INFECTION_MINUTES;
+    public static final Opt.Bool ZOMBIE_SUNBURN;
+    public static final Opt.Bool ZOMBIES_IGNORE_ZOMBIFIED;
+    public static final Opt.Bool GOLEMS_HUNT_ZOMBIFIED;
 
     // ---- Client ----
     public static final ForgeConfigSpec.EnumValue<PerformancePreset> PRESET;
@@ -106,6 +116,17 @@ public final class RealConfig {
     public static final Opt.Dbl PARTICLE_DENSITY;
     public static final Opt.Bool HELL_SOUNDS;
     public static final Opt.Bool BIG_SPLASHES;
+    public static final Opt.Bool REALISTIC_CLOUDS;
+    public static final Opt.Int CLOUD_HEIGHT;
+    public static final Opt.Dbl CLOUD_COVERAGE;
+    public static final Opt.Int CLOUD_THICKNESS;
+    public static final Opt.Int CLOUD_DISTANCE;
+    public static final Opt.Dbl CLOUD_SPEED;
+    public static final Opt.Bool REALISTIC_WATER_COLOR;
+    public static final Opt.Bool UNDERWATER_VISIBILITY;
+    public static final Opt.Bool WATER_GLINTS;
+    public static final Opt.Bool WATERFALL_MIST;
+    public static final Opt.Bool REALISTIC_ANIMATIONS;
 
     static {
         Defs c = new Defs(false);
@@ -193,6 +214,11 @@ public final class RealConfig {
         STEP_ASSIST = c.bool("smoothTerrainStepAssist", true, "Step Assist",
                 "Players step up full blocks so smoothed slopes can be walked without jumping.");
 
+        DIG_TO_NETHER = c.bool("digToNether", true, "Fall Through To The Nether",
+                "Digging through the bottom of the overworld drops you into the Nether (needs bedrock removed).");
+        NETHER_VOID_TO_OVERWORLD = c.bool("netherVoidToOverworld", true, "Fall Out Of The Nether",
+                "Falling through the bottom of the Nether drops you out of the overworld sky.");
+
         c.category("mobs", "Mob realism.");
         STEALTH = c.bool("darknessStealth", true, "Darkness Stealth",
                 "Hostile mobs have a much harder time spotting you in the dark or while sneaking.");
@@ -213,6 +239,20 @@ public final class RealConfig {
                 "Big creatures are knocked back less, small ones more.");
         CORPSE_TICKS = c.range("corpseTicks", 80, 20, 600, "Corpse Duration",
                 "How long (in ticks) dead creatures stay in the world, so ragdolls have time to settle. Vanilla is 20.");
+
+        c.category("zombies", "Zombie infection: bitten players can turn into zombies.");
+        ZOMBIE_INFECTION = c.bool("zombieInfection", true, "Zombie Infection",
+                "Zombie bites can infect players. Untreated, the infection turns the player into a zombie.");
+        INFECTION_CHANCE = c.range("infectionChance", 0.25, 0.0, 1.0, "Infection Chance",
+                "Chance that a zombie hit infects you.");
+        INFECTION_MINUTES = c.range("infectionMinutes", 10, 1, 60, "Infection Time (minutes)",
+                "How long the infection takes to turn you. Eat a golden apple before then to cure it.");
+        ZOMBIE_SUNBURN = c.bool("zombifiedSunburn", true, "Zombified Players Burn",
+                "Zombified players catch fire in sunlight unless they wear a helmet.");
+        ZOMBIES_IGNORE_ZOMBIFIED = c.bool("zombiesIgnoreZombified", true, "Zombies Ignore Zombified Players",
+                "Zombies treat zombified players as one of their own.");
+        GOLEMS_HUNT_ZOMBIFIED = c.bool("golemsHuntZombified", true, "Iron Golems Hunt Zombified Players",
+                "Iron golems attack zombified players on sight.");
         COMMON_SPEC = c.build();
 
         Defs v = new Defs(true);
@@ -256,6 +296,27 @@ public final class RealConfig {
         PARTICLE_DENSITY = v.range("particleDensity", 1.0, 0.0, 3.0, "Particle Density", "Performance limit: amount of ambient and effect particles.");
         HELL_SOUNDS = v.bool("hellSounds", true, "Hell Ambience", "Rumbles and moans echo through the hell layer.");
         BIG_SPLASHES = v.bool("bigSplashes", true, "Big Splashes", "Creatures falling into water throw up big splashes.");
+
+        v.category("clouds", "Realistic volumetric clouds (no shaders needed).");
+        REALISTIC_CLOUDS = v.bool("realisticClouds", true, "Realistic Clouds",
+                "Replaces the flat vanilla clouds with tall, shaded, drifting cumulus clouds that thicken in bad weather.");
+        CLOUD_HEIGHT = v.range("cloudHeight", 210, 128, 320, "Cloud Height", "Height of the cloud base.");
+        CLOUD_COVERAGE = v.range("cloudCoverage", 0.45, 0.0, 1.0, "Cloud Coverage", "How much of the sky is cloudy in clear weather.");
+        CLOUD_THICKNESS = v.range("cloudThickness", 36, 8, 96, "Cloud Thickness", "Maximum height of a cloud in blocks.");
+        CLOUD_DISTANCE = v.range("cloudDistance", 24, 6, 48, "Cloud Distance", "Performance limit: cloud draw radius in 16-block cells.");
+        CLOUD_SPEED = v.range("cloudSpeed", 1.0, 0.0, 5.0, "Wind Speed", "How fast clouds drift.");
+
+        v.category("water", "Realistic water (no shaders needed).");
+        REALISTIC_WATER_COLOR = v.bool("realisticWaterColor", true, "Realistic Water Colour",
+                "Deeper, more natural blue-green water instead of the bright vanilla blue.");
+        UNDERWATER_VISIBILITY = v.bool("underwaterVisibility", true, "Realistic Underwater Visibility",
+                "Clear in the shallows, dark in the deep, murky in swamps and at night.");
+        WATER_GLINTS = v.bool("waterGlints", true, "Sun Glints", "Sunlight sparkles on open water.");
+        WATERFALL_MIST = v.bool("waterfallMist", true, "Waterfall Mist", "Waterfalls throw up mist and foam where they land.");
+
+        v.category("animations", "Mob animation.");
+        REALISTIC_ANIMATIONS = v.bool("realisticAnimations", true, "Realistic Mob Animations",
+                "Breathing, head bob and swaying arms; zombies shamble with lolling heads and a dragging leg.");
         CLIENT_SPEC = v.build();
     }
 
